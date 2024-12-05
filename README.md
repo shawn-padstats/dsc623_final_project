@@ -52,6 +52,7 @@ Check Constraints:
 clinicNo format: Must start with 'C' followed by 6 digits.
 clinicPhone format: Must be in 'XXX-XXX-XXXX' format.
 clinicName: Cannot contain numeric characters.
+
 Owner:
 
 Primary Key: ownerNo
@@ -61,12 +62,14 @@ Check Constraints:
 ownerNo format: Must start with 'O' followed by 6 digits.
 ownerPhone format: Must be in 'XXX-XXX-XXXX' format.
 ownerName: Cannot contain numeric characters.
+
 Staff:
 
 Primary Key: staffNo
 Unique Constraint: staffPhone
 Not Null Constraints: staffNo, staffName, staffAddress, staffPhone, clinicNo
 Foreign Key: clinicNo references Clinic(clinicNo)
+
 Check Constraints:
 staffNo format: Must start with 'S' followed by 6 digits.
 staffPhone format: Must be in 'XXX-XXX-XXXX' format.
@@ -74,6 +77,7 @@ staffName: Cannot contain numeric characters.
 dateOfBirth: Must be a valid date in 'YYYY-MM-DD' format.
 position: Must be one of ('Veterinarian', 'Nurse', 'Technician', 'Receptionist').
 salary: Must be greater than 0.
+
 Pet:
 
 Primary Key: petNo
@@ -81,11 +85,13 @@ Not Null Constraints: petNo, petName, petDateOfBirth, species, ownerNo, clinicNo
 Foreign Keys:
 ownerNo references Owner(ownerNo)
 clinicNo references Clinic(clinicNo)
+
 Check Constraints:
 petNo format: Must start with 'P' followed by 6 digits.
 petName: Cannot contain numeric characters.
 petDateOfBirth: Must be a valid date in 'YYYY-MM-DD' format.
 species: Must be one of ('Dog', 'Cat', 'Bird', 'Rabbit', 'Other').
+
 Examination:
 
 Primary Key: examNo
@@ -93,6 +99,7 @@ Not Null Constraints: examNo, chiefComplaint, dateSeen, petNo, staffNo
 Foreign Keys:
 petNo references Pet(petNo)
 staffNo references Staff(staffNo)
+
 Check Constraints:
 examNo format: Must start with 'E' followed by 6 digits.
 dateSeen: Must be a valid date in 'YYYY-MM-DD' format.
