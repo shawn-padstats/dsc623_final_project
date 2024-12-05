@@ -33,6 +33,7 @@ Open a terminal or command prompt.
 Navigate to the directory containing vet_clinic.py.
 Execute the script using the command:
 python vet_clinic.py
+
 Observe the Output:
 
 The script will print the results of each transaction to the console.
