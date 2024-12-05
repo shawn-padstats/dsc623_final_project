@@ -1,49 +1,47 @@
-Veterinary Clinic Database Management Script
-Introduction
+# Veterinary Clinic Database Management Script
+
+# Introduction
+
 This script is designed to manage a veterinary clinic's database using SQLite, implemented in Python. It creates the entire database schema with all necessary constraints, inserts initial data, and performs several transactions to manipulate and query the data. The script is standalone and can be run in any Python-compatible environment.
 
-Features
+# Features
+
 Database Schema Creation: Develops SQL code to create the entire database schema, reflecting all specified constraints.
 Data Insertion: Inserts at least 5 tuples for each relation (Clinic, Owner, Staff, Pet, Examination).
 Transactions and Queries: Performs 5 transactions corresponding to common operations in a veterinary clinic, using embedded SQL.
 Constraint Enforcement: Implements and demonstrates various constraints, ensuring data integrity and robustness.
-Requirements
+
+# Requirements
+
 Python Version: Python 3.6 or higher.
 Required Packages:
 sqlite3: Standard Python library for SQLite databases (no installation required).
 pandas: For data manipulation and displaying query results in a tabular format.
-Install via pip if not already installed:
-bash
-Copy code
-pip install pandas
-How to Run the Script
+Install via pip if not already installed
+
+# How to Run the Script
 Ensure Required Packages are Installed:
 
 Verify that you have Python 3.6 or higher installed.
 Install pandas if it's not already installed:
-bash
-Copy code
 pip install pandas
-Save the Script:
 
-Save the script code into a file named vet_clinic.py.
+Save the script code into a file named vet_clinic.py (code provided in the Complete Script section below).
+
 Run the Script:
-
 Open a terminal or command prompt.
 Navigate to the directory containing vet_clinic.py.
 Execute the script using the command:
-bash
-Copy code
 python vet_clinic.py
 Observe the Output:
 
 The script will print the results of each transaction to the console.
 Any constraint violations will be reported with error messages.
-Script Overview
-1. Database Schema Creation with Constraints
+# Script Overview
+# 1. Database Schema Creation with Constraints
 The script defines the entire database schema with all specified constraints using SQL code within the create_tables(conn) function.
 
-Tables and Constraints
+# Tables and Constraints
 Clinic:
 
 Primary Key: clinicNo
@@ -102,10 +100,8 @@ description: Maximum length of 500 characters.
 Constraint Handling
 Constraints are enforced using SQL CHECK constraints, UNIQUE constraints, and foreign keys. The script uses SQLite's pattern matching capabilities with GLOB to enforce formats.
 
-Example of Constraints in Table Creation:
+# Example of Constraints in Table Creation:
 
-sql
-Copy code
 CREATE TABLE IF NOT EXISTS Owner (
     ownerNo TEXT PRIMARY KEY NOT NULL CHECK (ownerNo GLOB 'O[0-9][0-9][0-9][0-9][0-9][0-9]'),
     ownerName TEXT NOT NULL CHECK (ownerName NOT GLOB '*[0-9]*'),
@@ -113,20 +109,18 @@ CREATE TABLE IF NOT EXISTS Owner (
     ownerPhone TEXT NOT NULL UNIQUE CHECK (ownerPhone GLOB '[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]'),
     CHECK (LENGTH(ownerPhone) = 12)
 );
-2. Inserting Data into Each Relation
+# 2. Inserting Data into Each Relation
 The script inserts at least 5 tuples into each table using predefined data within the main() function.
 
-Example of Data Insertion for the Clinic Table:
+# Example of Data Insertion for the Clinic Table:
 
-python
-Copy code
 clinics = [
     ('C000001', 'Downtown Veterinary Clinic', '123 Main St, New York, NY 10001', '212-555-0101'),
     # ... other clinics
 ]
 query_clinic = "INSERT INTO Clinic (clinicNo, clinicName, clinicAddress, clinicPhone) VALUES (?, ?, ?, ?);"
 execute_many(conn, query_clinic, clinics)
-3. Performing Transactions Using Embedded SQL
+# 3. Performing Transactions Using Embedded SQL
 The script performs 5 transactions corresponding to common operations in a veterinary clinic.
 
 Transaction 1: Add a New Pet and Owner
@@ -138,8 +132,8 @@ Insert the new pet.
 Handle constraint violations (e.g., invalid data).
 Example Code:
 
-python
-Copy code
+
+
 # New owner data
 new_owner = ('O000006', 'Karen Taylor', '606 Sixth St, Philadelphia, PA 19102', '215-555-1212')
 # New pet data
@@ -153,8 +147,8 @@ Insert a new examination record.
 Handle constraint violations.
 Example Code:
 
-python
-Copy code
+
+
 new_exam = ('E000006', 'Skin rash', 'Examined skin for dermatitis', '2023-06-10', 'Prescribed topical ointment', 'P000006', 'S000001')
 
 # Insert examination
@@ -165,8 +159,8 @@ Update the clinicNo for the staff member.
 Handle constraint violations (e.g., invalid clinicNo).
 Example Code:
 
-python
-Copy code
+
+
 execute_query(conn, """
     UPDATE Staff
     SET clinicNo = ?
@@ -178,8 +172,8 @@ Process:
 Query the Pet table where clinicNo matches the specified clinic.
 Example Code:
 
-python
-Copy code
+
+
 clinic_no = 'C000001'
 query = """
     SELECT petNo, petName, petDateOfBirth, species, breed, color, ownerNo
@@ -193,8 +187,8 @@ Process:
 Query the Examination table, joining with Pet to include pet details.
 Example Code:
 
-python
-Copy code
+
+
 staff_no = 'S000001'
 query = """
     SELECT e.examNo, e.chiefComplaint, e.description, e.dateSeen, e.actionsTaken,
@@ -204,13 +198,13 @@ query = """
     WHERE e.staffNo = ?;
 """
 df_exams = fetch_query(conn, query, (staff_no,))
-4. Constraint Enforcement Demonstration
+# 4. Constraint Enforcement Demonstration
 The script attempts to insert erroneous data that violates constraints to demonstrate constraint enforcement. It handles errors gracefully and outputs appropriate error messages.
 
 Example of Handling Constraint Violations:
 
-python
-Copy code
+
+
 # Attempt to insert erroneous pet data
 erroneous_pet = ('P000007', '123InvalidName', '2021-15-15', 'Dinosaur', 'T-Rex', 'Green', 'O000007', 'C000001')
 success, error = execute_query(conn, """
@@ -221,6 +215,6 @@ if success:
     print("Erroneous pet added successfully (This should not happen).")
 else:
     print(f"Failed to add erroneous pet due to constraint violation: {error}")
-5. References
-SQLite3 Documentation: sqlite3 — SQLite Database Module
-Pandas Documentation: Pandas Documentation
+# 5. References
+SQLite3 Documentation: [sqlite3 — SQLite Database Module](https://docs.python.org/3/library/sqlite3.html)
+Pandas Documentation: [Pandas Documentation](https://pandas.pydata.org/docs/)
