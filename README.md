@@ -123,8 +123,10 @@ execute_many(conn, query_clinic, clinics)
 # 3. Performing Transactions Using Embedded SQL
 The script performs 5 transactions corresponding to common operations in a veterinary clinic.
 
-Transaction 1: Add a New Pet and Owner
+# Transaction 1: Add a New Pet and Owner
+
 Purpose: Register a new pet and its owner.
+
 Process:
 Check if the owner exists.
 Insert the new owner if they do not exist.
@@ -139,9 +141,11 @@ new_owner = ('O000006', 'Karen Taylor', '606 Sixth St, Philadelphia, PA 19102', 
 # New pet data
 new_pet = ('P000006', 'Bella', '2021-06-15', 'Dog', 'Poodle', 'White', 'O000006', 'C000001')
 
-# Insert owner and pet
-Transaction 2: Record an Examination for a Pet
+Insert owner and pet
+# Transaction 2: Record an Examination for a Pet
+
 Purpose: Record a new examination performed on a pet.
+
 Process:
 Insert a new examination record.
 Handle constraint violations.
@@ -151,9 +155,11 @@ Example Code:
 
 new_exam = ('E000006', 'Skin rash', 'Examined skin for dermatitis', '2023-06-10', 'Prescribed topical ointment', 'P000006', 'S000001')
 
-# Insert examination
-Transaction 3: Update a Staff Member's Assigned Clinic
+Insert examination
+# Transaction 3: Update a Staff Member's Assigned Clinic
+
 Purpose: Update the clinic assignment for a staff member.
+
 Process:
 Update the clinicNo for the staff member.
 Handle constraint violations (e.g., invalid clinicNo).
@@ -166,8 +172,11 @@ execute_query(conn, """
     SET clinicNo = ?
     WHERE staffNo = ?;
 """, ('C000002', 'S000003'))
-Transaction 4: Retrieve All Pets Registered at a Specific Clinic
+
+# Transaction 4: Retrieve All Pets Registered at a Specific Clinic
+
 Purpose: Get a list of pets registered at a particular clinic.
+
 Process:
 Query the Pet table where clinicNo matches the specified clinic.
 Example Code:
@@ -181,8 +190,11 @@ query = """
     WHERE clinicNo = ?;
 """
 df_pets = fetch_query(conn, query, (clinic_no,))
-Transaction 5: Generate a Report of Examinations Conducted by a Staff Member
+
+# Transaction 5: Generate a Report of Examinations Conducted by a Staff Member
+
 Purpose: Generate a report of all examinations performed by a specific staff member.
+
 Process:
 Query the Examination table, joining with Pet to include pet details.
 Example Code:
